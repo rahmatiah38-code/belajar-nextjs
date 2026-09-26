@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import Link from 'next/link'
 import UserCard from "@/components/UserCard";
 import { useFavorite } from "@/context/FavoriteContext";
 
@@ -69,19 +69,25 @@ export default function UsersPage() {
                     <p className="text-gray-400 mb-8">Data ini diambil langsung dari FavoriteContext.</p>
                 </div>
 
-                <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {favoriteUsers.length > 0 ? (
-                        favoriteUsers.map((user) => (
-                            <UserCard
-                                key={user.id}
-                                user={user}
-                            />
-                        ))
-                    ) : (
-                        <div className="col-span-full flex flex-col items-center gap-3 py-16 text-center text-muted-foreground">
-                            Belum ada pengguna yang Anda tambahkan ke daftar favorit.
-                        </div>
-                    )}
+                <div>
+                    <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                        {favoriteUsers.length > 0 ? (
+                            <>
+                                {favoriteUsers.map((user) => (
+                                    <UserCard
+                                        key={user.id}
+                                        user={user}
+                                    />
+                                ))}
+                                <Link href='/users' className='col-span-full text-sm font-medium text-primary underline-offset-4 hover:underline'>Tambah Favorite</Link>
+                            </>
+                        ) : (
+                            <div className="col-span-full flex flex-col items-center gap-3 py-16 text-center text-muted-foreground">
+                                Belum ada Favorite Users.
+                                <Link href='/users' className='col-span-full text-sm font-medium text-primary underline-offset-4 hover:underline'>Tambah Favorite</Link>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </section>

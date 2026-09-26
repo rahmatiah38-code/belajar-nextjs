@@ -20,7 +20,6 @@ export default function Navbar () {
     { href: '/services', label: 'Services' },
     { href: '/profile', label: 'Profile' },
     { href: '/contact', label: 'Contact' },
-    { href: '/users', label: 'Users' },
     { href: '/favorite', label: `Favorite (${favorites.length})` } 
   ]
 
