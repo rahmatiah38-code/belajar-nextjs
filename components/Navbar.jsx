@@ -1,65 +1,70 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import {  useUser } from "@/context/UserContext";
+import { cn } from '@/lib/utils'
+import { buttonVariants } from '@/components/ui/button'
+import { useUser } from '@/context/UserContext'
+import { useFavorite } from '@/context/FavoriteContext'
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/profile", label: "Profile" },
-  { href: "/contact", label: "Contact" },
-];
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/services', label: 'Services' },
+  { href: '/profile', label: 'Profile' },
+  { href: '/contact', label: 'Contact' }
+]
 
-export default function Navbar() {
-  const pathname = usePathname();
+export default function Navbar () {
+  const pathname = usePathname()
   //nambahin sapaan
-  const {name, submitted} =useUser();
+  const { name, submitted } = useUser()
+  const { favorites } = useFavorite()
 
   return (
-    <header className="sticky top-4 z-50 mx-auto w-full max-w-4xl px-4">
-      <nav className="flex items-center justify-between gap-4 rounded-full border border-white/10 bg-foreground/20 px-4 py-2 shadow-lg shadow-black/20 backdrop-blur-xl">
-        <Link
-          href="/"
-          className="shrink-0 text-sm font-bold tracking-tight"
-        >
+    <header className='sticky top-4 z-50 mx-auto w-full max-w-4xl px-4'>
+      <nav className='flex items-center justify-between gap-4 rounded-full border border-white/10 bg-foreground/20 px-4 py-2 shadow-lg shadow-black/20 backdrop-blur-xl'>
+        <Link href='/' className='shrink-0 text-sm font-bold tracking-tight'>
           MyWebsite
         </Link>
 
-        <div className="hidden items-center gap-1 text-sm text-muted-foreground sm:flex">
-          {links.map((link) => {
+        <div className='hidden items-center gap-1 text-sm text-muted-foreground sm:flex'>
+          {links.map(link => {
             const isActive =
-              link.href === "/"
-                ? pathname === "/"
-                : pathname?.startsWith(link.href);
+              link.href === '/'
+                ? pathname === '/'
+                : pathname?.startsWith(link.href)
 
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "rounded-full px-3 py-1.5 transition-colors hover:text-foreground",
-                  isActive && "bg-foreground/10 text-foreground"
+                  'rounded-full px-3 py-1.5 transition-colors hover:text-foreground',
+                  isActive && 'bg-foreground/10 text-foreground'
                 )}
               >
                 {link.label}
               </Link>
-            );
+            )
           })}
         </div>
         {/* //Menampilkan sapaan */}
-        {submitted && <span>Hi, {name} 👋</span>}
+        <div className='flex items-center gap-4 text-sm text-black'>
+          <div className='flex items-center gap-1 bg-gray/10 px-3 py-1 rounded-full'>
+            <span>♥</span>
+            <span>Favorit {favorites.length}</span>
+          </div>
+          {submitted && <span>Hi, {name} 👋</span>}
+        </div>
         <Link
-          href="/contact"
-          className={cn(buttonVariants({ size: "sm" }), "rounded-full")}
-        > 
+          href='/contact'
+          className={cn(buttonVariants({ size: 'sm' }), 'rounded-full')}
+        >
           Get in touch
         </Link>
       </nav>
     </header>
-  );
+  )
 }

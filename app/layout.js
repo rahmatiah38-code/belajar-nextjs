@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { UserProvider } from "@/context/UserContext";
+import { FavoriteProvider } from "@/context/FavoriteContext";
 
 const fontSans = localFont({
   src: [
@@ -34,16 +35,17 @@ export default function RootLayout({ children }) {
       className={`dark ${fontSans.variable}`}
     >
       <body className="flex min-h-screen flex-col bg-background text-foreground antialiased">
-        <UserProvider>
-          <Navbar />
+        <FavoriteProvider>
+          <UserProvider>
+            <Navbar />
 
-          <main className="flex-1">
-            {children}
-          </main>
+            <main className="flex-1">
+              {children}
+            </main>
 
-          <Footer />
-        </UserProvider>
-
+            <Footer />
+          </UserProvider>
+        </FavoriteProvider>
       </body>
     </html>
   );
