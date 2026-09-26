@@ -8,19 +8,22 @@ import { buttonVariants } from '@/components/ui/button'
 import { useUser } from '@/context/UserContext'
 import { useFavorite } from '@/context/FavoriteContext'
 
-const links = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/services', label: 'Services' },
-  { href: '/profile', label: 'Profile' },
-  { href: '/contact', label: 'Contact' }
-]
-
 export default function Navbar () {
   const pathname = usePathname()
   //nambahin sapaan
   const { name, submitted } = useUser()
   const { favorites } = useFavorite()
+
+  const links = [
+    { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
+    { href: '/users', label: 'Users' },
+    { href: '/services', label: 'Services' },
+    { href: '/profile', label: 'Profile' },
+    { href: '/contact', label: 'Contact' },
+    { href: '/favorite', label: `Favorit (${favorites.length})` } 
+  ]
+
 
   return (
     <header className='sticky top-4 z-50 mx-auto w-full max-w-4xl px-4'>
@@ -51,12 +54,8 @@ export default function Navbar () {
           })}
         </div>
         {/* //Menampilkan sapaan */}
-        <div className='flex items-center gap-4 text-sm text-black'>
-          <div className='flex items-center gap-1 bg-gray/10 px-3 py-1 rounded-full'>
-            <span>♥</span>
-            <span>Favorit {favorites.length}</span>
-          </div>
-          {submitted && <span>Hi, {name} 👋</span>}
+        <div className='flex items-center gap-4 text-sm text-muted-foreground'>
+          {submitted && <span>Hi, <span className="font-semibold text-foreground">{name}</span> 👋</span>}
         </div>
         <Link
           href='/contact'
