@@ -17,11 +17,11 @@ export default function Navbar () {
   const links = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
-    { href: '/users', label: 'Users' },
     { href: '/services', label: 'Services' },
     { href: '/profile', label: 'Profile' },
     { href: '/contact', label: 'Contact' },
-    { href: '/favorite', label: `Favorit (${favorites.length})` } 
+    { href: '/users', label: 'Users' },
+    { href: '/favorite', label: `Favorite (${favorites.length})` } 
   ]
 
 
