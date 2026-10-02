@@ -4,28 +4,21 @@
 import { Button } from '@/components/ui/button'
 
 import { useFavorite } from '@/context/FavoriteContext'
+import { Heart } from 'lucide-react'
 
-export default function FavoriteButton ({ userid }) {
-  const { isFavorite, toggleFavorite } = useFavorite()
-  const favorited = isFavorite(userid)
+export default function FavoriteButton ({ user }) {
+  const { isFavorite, addFavorite, removeFavorite } = useFavorite()
+  const favorited = isFavorite(user.id)
 
   return (
     <Button
-      onClick={() => toggleFavorite(userid)} // jalankan fungsi toggle dengan parameter userid
-      className={`group/btn ${
-        favorited
-          ? 'bg-primary hover:bg-accent-foreground/90'
-          : 'bg-accent text-white hover:bg-primary'
-      }`}
+      variant={favorited ? 'secondary' : 'outline'}
+      className='rounded-full'
+      aria-pressed={favorited}
+      onClick={() => (favorited ? removeFavorite(user.id) : addFavorite(user))}
     >
-      {favorited ? (
-        <>
-          <span className='group-hover/btn:hidden'>♥ Favourite</span>
-          <span className='hidden group-hover/btn:inline'>Remove Favorite</span>
-        </>
-      ) : (
-        '♡ Add Favourite'
-      )}
+      <Heart className={favorited ? 'fill-red-500 text-red-500' : ''} />
+      {favorited ? 'Favourite' : 'Add Favourite'}
     </Button>
   )
 }

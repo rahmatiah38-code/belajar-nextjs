@@ -30,7 +30,7 @@ export default function UserCard ({ user }) {
         </p>
         <div className="mt-4 flex w-full items-center gap-2">
           <Button className="flex-1 rounded-full px-4 py-1.5 text-xs">View Profile</Button>
-          <FavoriteButton userid={user.id}></FavoriteButton>
+          <FavoriteButton user={user}></FavoriteButton>
         </div>
       </CardContent>
     </Card>
