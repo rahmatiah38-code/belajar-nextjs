@@ -3,6 +3,7 @@
 // import { useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { Mail, MapPin, MessageCircle } from "lucide-react";
+import Link from 'next/link';
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -99,6 +100,7 @@ export default function Contact() {
                   <p className="mt-2 text-sm text-muted-foreground">
                     Thanks for reaching out — we&apos;ll reply soon.
                   </p>
+                  <Link href='/messages' className="text-sm font-medium text-primary underline-offset-4 hover:underline">daftar pesan</Link>
                 </div>
               ) : (
                 <form
