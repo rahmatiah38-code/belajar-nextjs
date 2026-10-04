@@ -4,6 +4,10 @@ const createJestConfig = nextJest;
 
 const customJestConfig = {
   testEnvironment: "node",
+
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/$1",
+  },
   
 };
 

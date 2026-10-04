@@ -39,6 +39,7 @@ export default function DeleteDialog({ id, name, action }) {
         "
       >
         <Trash2 className="size-4" />
+        Hapus
       </AlertDialogTrigger>
 
       <AlertDialogContent>

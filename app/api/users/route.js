@@ -1,17 +1,74 @@
+import { NextResponse } from "next/server";
 const users = [
     {id: 1, name: "Leanne Graham", email: "Sincere@april.biz"},
     {id: 2, name: "Ervin Howell", email: "Shanna@melissa.tv"},
     {id: 3, name: "Clementine Bauch", email: "Nathan@yesenia.net"},
-    {id: 4, name: "Patricia Lebsack", email: "Julianne.OConner@kory.org"},
-    {id: 5, name: "Chelsey Dietrich", email: "Lucio_Hettinger@annie.ca"},
-    {id: 6, name: "Mrs. Dennis Schulist", email: "Karley_Dach@jasper.info"},
-    {id: 7, name: "Kurtis Weissnat", email: "Telly.Hoeger@billy.biz"},
-    {id: 8, name: "Nicholas Runolfsdottir V", email: "Sherwood@rosamond.me"},
-    {id: 9, name: "Glenna Reichert", email: "Chaim_McDermott@dana.io"},
-    {id: 10, name: "Clementina DuBuque", email: "Rey.Padberg@karina.biz"}  
+    {id: 4, name: "Patricia Lebsack", email: "Julianne.OConner@kory.org"}, 
     
 ];
 export async function GET() {
     return Response.json(users);
     
+}
+
+export async function POST(request) {
+  const body = await request.json();
+
+  // Validasi ID
+  if (body.id === undefined || body.id === null || body.id === "") {
+    return NextResponse.json(
+      {
+        message: "ID wajib diisi"
+      },
+      {
+        status: 400
+      }
+    );
+  }
+
+  // Validasi Name
+  if (!body.name || body.name.trim() === "") {
+    return NextResponse.json(
+      {
+        message: "Name wajib diisi"
+      },
+      {
+        status: 400
+      }
+    );
+  }
+
+  // Cek ID sudah digunakan
+  const existingUser = users.find(
+    (user) => user.id === Number(body.id)
+  );
+
+  if (existingUser) {
+    return NextResponse.json(
+      {
+        message: "ID sudah digunakan"
+      },
+      {
+        status: 409
+      }
+    );
+  }
+
+  const newUser = {
+    id: Number(body.id),
+    name: body.name.trim(),
+    email: body.email || ""
+  };
+
+  users.push(newUser);
+
+  return NextResponse.json(
+    {
+      message: "User berhasil ditambahkan",
+      data: newUser
+    },
+    {
+      status: 201
+    }
+  );
 }
