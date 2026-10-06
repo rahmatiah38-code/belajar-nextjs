@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase";
+
 const users = [
     {id: 1, name: "Leanne Graham", email: "Sincere@april.biz"},
     {id: 2, name: "Ervin Howell", email: "Shanna@melissa.tv"},
@@ -7,7 +9,13 @@ const users = [
     
 ];
 export async function GET() {
-    return Response.json(users);
+    const { data, error } = await supabase.from("app_users").select("*");
+    
+      if (error) {
+        return Response.json({ error: error.message }, { status: 500 });
+      }
+    
+      return Response.json(data);
     
 }
 
