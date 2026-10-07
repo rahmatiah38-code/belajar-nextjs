@@ -1,10 +1,11 @@
 "use server";
 
-import { messages } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
 export async function deleteMessage(formData) {
   const id = formData.get("id");
+  console.log("Id yang akan dihapus: ",id)
 
   if (!id) {
     return {
@@ -13,20 +14,17 @@ export async function deleteMessage(formData) {
     };
   }
 
-  const messageId = Number(id);
+  const { error } = await supabase
+    .from("messages")
+    .delete()
+    .eq("id", id);
 
-  const index = messages.findIndex(
-    (message) => message.id === messageId
-  );
-
-  if (index === -1) {
+  if (error) {
     return {
       success: false,
-      error: "Message tidak ditemukan",
+      error: error.message,
     };
   }
-
-  messages.splice(index, 1);
 
   revalidatePath("/messages");
 

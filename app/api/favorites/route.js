@@ -1,7 +1,8 @@
 import { getAllFavorites, addFavorite } from "@/lib/services/favoriteService";
 
 export async function GET() {
-  return Response.json(getAllFavorites());
+  const favorites = await getAllFavorites();
+  return Response.json(favorites);
 }
 
 export async function POST(request) {
