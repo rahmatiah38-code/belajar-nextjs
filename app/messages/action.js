@@ -1,9 +1,10 @@
 "use server";
 
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function deleteMessage(formData) {
+  const supabase = await createClient();
   const id = formData.get("id");
   console.log("Id yang akan dihapus: ",id)
 

@@ -17,11 +17,6 @@ const contactInfo = [
 ];
 
 export default function Contact() {
-  //inisiasi tempat penyimpanan value inputan
-  // const [submitted, setSubmitted] = useState(false);
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [message, setMessage] = useState("");
 
   const {
     name,
@@ -34,11 +29,6 @@ export default function Contact() {
     setSubmitted,
   } = useUser();
 
-  // function handleSubmit(event) {
-  //   event.preventDefault();
-  //   setSubmitted(true);
-  //   console.log({ name, email, message });
-  // }
   async function handleSubmit(event) {
     event.preventDefault();
 

@@ -1,95 +1,56 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from 'next/link'
+import Link from "next/link";
+import { Heart } from "lucide-react";
+
 import UserCard from "@/components/UserCard";
 import { useFavorite } from "@/context/FavoriteContext";
 
-export default function UsersPage() {
-    const [allUsers, setAllUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+export default function FavoritesPage() {
+  const { favorites } = useFavorite();
 
-    // Fungsi Pengecek Favorite
-    const { isFavorite } = useFavorite();
+  return (
+    <section className="relative">
+      <div className="bg-grid bg-radial-fade absolute inset-0 -z-10" />
 
-    useEffect(() => {
-        fetch("https://jsonplaceholder.typicode.com/users")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Gagal mengambil data");
-                }
+      <div className="mx-auto max-w-6xl px-6 py-20">
+        <div className="max-w-2xl">
+          <p className="text-sm font-semibold text-primary">Favorite</p>
+          <h1 className="mt-2 text-4xl font-bold tracking-tight md:text-5xl">
+            My Favorite Users
+          </h1>
+          <p className="mt-4 text-muted-foreground">
+            Data ini diambil langsung dari FavoriteContext.
+          </p>
+        </div>
 
-                return response.json();
-            })
-            .then((data) => {
-                setAllUsers(data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                setError(error.message);
-                setLoading(false);
-            });
-    }, []);
-
-    if (error) {
-        return (
-            <main className="flex min-h-[70vh] items-center justify-center px-6">
-                <div className="rounded-2xl border border-destructive/30 bg-destructive/10 p-6 text-center">
-                    <h2 className="font-semibold text-destructive">
-                        Something went wrong
-                    </h2>
-
-                    <p className="mt-2 text-sm text-destructive/80">{error}</p>
-                </div>
-            </main>
-        );
-    }
-
-    if (loading) {
-        return (
-            <main className="flex min-h-[70vh] items-center justify-center px-6">
-                <p className="animate-pulse text-muted-foreground">
-                    Loading memuat data users dari favorite...
-                </p>
-            </main>
-        );
-    }
-
-    // Ambil data yang tercatat sebagai favorite di context
-    const favoriteUsers = allUsers.filter((user) => isFavorite(user.id));
-
-    return (
-        <section className="relative">
-            <div className="bg-grid bg-radial-fade absolute inset-0 -z-10" />
-
-            <div className="mx-auto max-w-6xl px-6 py-20">
-                <div className="max-w-2xl">
-                    <h1 className="text-4xl font-bold mb-2">My Favorite Users</h1>
-                    <p className="text-gray-400 mb-8">Data ini diambil langsung dari FavoriteContext.</p>
-                </div>
-
-                <div>
-                    <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {favoriteUsers.length > 0 ? (
-                            <>
-                                {favoriteUsers.map((user) => (
-                                    <UserCard
-                                        key={user.id}
-                                        user={user}
-                                    />
-                                ))}
-                                <Link href='/users' className='col-span-full text-sm font-medium text-primary underline-offset-4 hover:underline'>Tambah Favorite</Link>
-                            </>
-                        ) : (
-                            <div className="col-span-full flex flex-col items-center gap-3 py-16 text-center text-muted-foreground">
-                                Belum ada Favorite Users.
-                                <Link href='/users' className='col-span-full text-sm font-medium text-primary underline-offset-4 hover:underline'>Tambah Favorite</Link>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
+        {favorites.length > 0 ? (
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {favorites.map((favorite) => (
+              <UserCard
+                key={favorite.id}
+                user={{
+                  id: favorite.app_users.id,
+                  name: favorite.app_users.name,
+                  email: favorite.app_users.email,
+                  company: { name: favorite.app_users.company_name },
+                }}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-16 flex flex-col items-center gap-3 py-16 text-center text-muted-foreground">
+            <Heart className="size-8" />
+            <p>Belum ada user favorit. Tandai dulu dari User Directory.</p>
+            <Link
+              href="/users"
+              className="text-sm font-medium text-primary hover:underline"
+            >
+              Buka User Directory →
+            </Link>
+          </div>
+        )}
+      </div>
+    </section>
+  );
 }
